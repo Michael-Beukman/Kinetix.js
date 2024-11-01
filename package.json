@@ -1,0 +1,49 @@
+{
+  "name": "Kinetix.js",
+  "version": "1.0.39",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack serve --open",
+    "build": "npm --no-git-tag-version version patch && webpack build --mode=production",
+    "postinstall": "cp extra/tensorflow_additions/tf_patch/fused_utils.js node_modules/@tensorflow/tfjs-backend-cpu/dist/utils/fused_utils.js; cp extra/tensorflow_additions/tf_patch/unaryop_gpu.js node_modules/@tensorflow/tfjs-backend-webgl/dist/unaryop_gpu.js; cp extra/tensorflow_additions/tf_patch/unaryop_packed_gpu.js node_modules/@tensorflow/tfjs-backend-webgl/dist/unaryop_packed_gpu.js; cp extra/tensorflow_additions/tf_patch/kernel_funcs_utils.js node_modules/@tensorflow/tfjs-backend-webgl/dist/kernel_utils/kernel_funcs_utils.js; "
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^6.6.0",
+    "@types/file-saver": "^2.0.7",
+    "@types/p5": "^1.7.6",
+    "css-loader": "^7.1.2",
+    "ts-loader": "^9.5.1",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2",
+    "typescript-plugin-css-modules": "^5.1.0",
+    "webpack": "^5.95.0",
+    "webpack-bundle-analyzer": "^4.10.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.1.0"
+  },
+  "dependencies": {
+    "@d4c/numjs": "^0.17.34",
+    "@popperjs/core": "^2.11.8",
+    "@tensorflow/tfjs": "4.21.0",
+    "@types/quicksettings": "^3.0.6",
+    "bootstrap": "^5.3.3",
+    "buffer": "^6.0.3",
+    "file-saver": "^2.0.5",
+    "firebase": "^10.14.1",
+    "p5": "^1.11.0",
+    "path-browserify": "^1.0.1",
+    "prettier": "^3.3.3",
+    "process": "^0.11.10",
+    "quicksettings": "^3.0.1",
+    "sass": "^1.77.6",
+    "sass-loader": "^16.0.2",
+    "style-loader": "^4.0.0",
+    "sweetalert2": "^11.14.4",
+    "util": "^0.12.5"
+  }
+}

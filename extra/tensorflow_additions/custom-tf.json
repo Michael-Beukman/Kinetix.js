@@ -1,0 +1,13 @@
+{
+    "kernels": ["Transpose", "Reshape", "Cast", "Identity", "Concat", "_FusedMatMul", "fusedMatMul__op", "Add", "Less", "StridedSlice", "Equal", "GreaterEqual", "Pack", "ExpandDims", "Sub", "Minimum", "Maximum", "Tile", "TensorScatterUpdate", "AddN", "Sum", "Select", "LogicalAnd", "BatchMatMul", "Multiply", "Square", "Rsqrt", "Einsum", "Max", "Exp", "RealDiv", "Neg", "Reciprocal", "GatherV2", "Slice", "GatherNd", "Tanh", "Multinomial"],
+    "backends": [
+        "cpu",
+        "webgl"
+    ],
+    "models": [
+        "dist/model_entity/tfjs_models/model.json",
+        "dist/model_symbolic/tfjs_models/model.json"
+    ],
+    "outputPath": "./custom_tfjs",
+    "forwardModeOnly": true
+  }

@@ -1,0 +1,718 @@
+<!--
+  Copyright 2018 The Distill Template Authors
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!doctype html>
+
+<head>
+  <script defer src="static/template.v2.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf8">
+</head>
+<style id="distill-article-specific-styles">
+  .subgrid {
+    grid-column: screen;
+    display: grid;
+    grid-template-columns: inherit;
+    grid-template-rows: inherit;
+    grid-column-gap: inherit;
+    grid-row-gap: inherit;
+  }
+
+  d-figure.base-grid {
+    grid-column: screen;
+    background: hsl(0, 0%, 97%);
+    padding: 20px 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  d-figure {
+    margin-bottom: 1em;
+    position: relative;
+  }
+
+  d-figure>figure {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .shaded-figure {
+    background-color: hsl(0, 0%, 97%);
+    border-top: 1px solid hsla(0, 0%, 0%, 0.1);
+    border-bottom: 1px solid hsla(0, 0%, 0%, 0.1);
+    padding: 30px 0;
+  }
+
+  .pointer {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    top: 26px;
+    left: -48px;
+  }
+
+  div#observablehq {
+    font-family: inherit;
+    font-size: inherit;
+  }
+
+  button {
+    font-family: inherit;
+    font-size: 1em;
+  }
+
+  /* Alignment of KaTeX. */
+  #gnn-models span.katex-display {
+    margin: 0.5em 0 0.5em 0em;
+  }
+
+  @media (max-width: 1000px) {
+    d-contents {
+      justify-self: start;
+      align-self: start;
+      grid-column-start: 2;
+      grid-column-end: 6;
+      padding-bottom: 0.5em;
+      margin-bottom: 1em;
+      padding-left: 0.25em;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      border-bottom-width: 1px;
+      border-bottom-style: solid;
+      border-bottom-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  @media (min-width: 1000px) {
+    d-contents {
+      align-self: start;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: end;
+      padding-right: 3em;
+      padding-left: 2em;
+      border-right: 1px solid rgba(0, 0, 0, 0.1);
+      border-right-width: 1px;
+      border-right-style: solid;
+      border-right-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  @media (min-width: 1180px) {
+    d-contents {
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: end;
+      padding-right: 3em;
+      padding-left: 2em;
+      border-right: 1px solid rgba(0, 0, 0, 0.1);
+      border-right-width: 1px;
+      border-right-style: solid;
+      border-right-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  d-contents nav h3 {
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+
+  d-contents nav a {
+    color: rgba(0, 0, 0, 0.8);
+    border-bottom: none;
+    text-decoration: none;
+  }
+
+  d-contents li {
+    list-style-type: none;
+  }
+
+  d-contents ul {
+    padding-left: 1em;
+  }
+
+  d-contents nav ul li {
+    margin-bottom: 0.25em;
+  }
+
+  d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6);
+  }
+
+  d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 6px;
+  }
+
+  d-contents nav>div {
+    display: block;
+    outline: none;
+    margin-bottom: 0.5em;
+  }
+
+  d-contents nav>div>a {
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  d-contents nav>div>a:hover,
+  d-contents nav>ul>li>a:hover {
+    text-decoration: none;
+  }
+
+  input[type="radio"] {
+    vertical-align: unset !important;
+  }
+
+  .math-details {
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-bottom: 0em;
+    padding-top: 1em;
+    margin-bottom: 1em;
+  }
+
+  .mycenter>.katex {
+    text-align: center;
+    width: 100%;
+  }
+
+  span.katex {
+    text-align: center;
+    width: 100%;
+    color: red !important;
+  }
+
+  .math-details {
+    padding-bottom: 1em !important;
+  }
+
+
+  .frame {
+    border: 0;
+
+    -ms-transform: scale(0.5) !important;
+    -moz-transform: scale(0.5) !important;
+    -o-transform: scale(0.5) !important;
+    -webkit-transform: scale(0.5) !important;
+    transform: scale(0.5) translate(-15%, 0) !important;
+
+    -ms-transform-origin: 0 0 !important;
+    -moz-transform-origin: 0 0 !important;
+    -o-transform-origin: 0 0 !important;
+    -webkit-transform-origin: 0 0 !important;
+    transform-origin: 0 0 !important;
+  }
+
+  #cover-video {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    /*object-position: 0% 0%;*/
+    z-index: 1;
+  }
+
+  #cover {
+    position: relative;
+    background-size: cover;
+    color: black;
+    width: 100%;
+    height: 100%;
+    min-height: 420px;
+  }
+
+  #cover d-title {
+    position: absolute;
+    display: absolute;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    margin: auto;
+  }
+
+  /* Grid container styling */
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    /*max-width: 1000px;*/
+    margin: 0 auto;
+    /*padding: 20px;*/
+  }
+
+  /* Video styling */
+  .video-grid video {
+    width: 100%;
+    height: auto;
+  }
+
+  .styled-button {
+    background-color: #d3d3d3;
+    /* light gray */
+    color: #333333;
+    /* dark text for contrast */
+    font-size: 16px;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    display: inline-block;
+    text-align: center;
+  }
+
+  .styled-button a {
+    color: #333333;
+    text-decoration: none;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .styled-button i {
+    font-size: 16px;
+    vertical-align: middle;
+    margin-right: 5px;
+  }
+
+  .styled-button:hover {
+    background-color: #bdbdbd;
+    /* slightly darker gray */
+  }
+
+  .styled-button:active {
+    transform: translateY(1px);
+  }
+
+  .myTitle {
+    background-color: rgba(0, 0, 0, 0.4);
+    color: #ffffff;
+    height: 100%;
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+
+  .my-center-content {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    /* Space between the image and text */
+  }
+
+  .at-end-ul li {
+    display: inline-flex;
+    ;
+  }
+
+  .myBtnDiv{
+    text-align: center;
+    gap: 10px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+
+  .myiframe{
+    width: 80vw; 
+    height: 90vh; 
+    position: fixed; 
+    left: 10vw
+  }
+  
+  .iframeContainerDiv{
+    position: relative;
+    width: 100%;
+    text-align: center;
+    height: 90vh;
+  }
+
+  @media  (max-width: 800px) {
+    .myiframe{
+      
+      height: min(100vw, 100vh);
+      width: min(100vw, 100vh);
+      position: fixed; 
+      left: calc((100vw - min(100vw, 100vh)) / 2)
+    }
+
+    .iframeContainerDiv{
+      position: relative;
+      height: min(100vw, 100vh);
+      
+    }
+  }
+
+  .loadingDiv {
+    /*position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;*/
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*z-index: 100001; Make sure it covers other content */
+  }
+  
+  /* Spinner */
+  .spinner {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #3498db;
+    animation: spin 1s linear infinite;
+    /*top: calc(50% - 32px);
+    left: calc(50% - 24px  - 13vw);
+    width: 100%;
+    ;*/
+    border-radius: 50%;
+    height: 48px;
+    width: 48px;
+    margin: auto;
+    position: absolute;
+    left: calc(50% - 24px);
+
+    
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+</style>
+<!-- text-align: center; -->
+<!-- padding: 14rem 0 0 0; -->
+
+<body>
+  <!-- <distill-header></distill-header> -->
+  <d-front-matter>
+    <script id='distill-front-matter' type="text/json">{
+    "title": "Kinetix: Investigating the Training of General Agents through Open-Ended Physics-Based Control Tasks",
+    "description": "Investigating large-scale training of RL agents in a vast and diverse space of simulated tasks",
+    "published": "October 31, 2024",
+    "doi": "2410.23208",
+    "authors": [
+    {
+      "author":"Michael Matthews<sup>*</sup>",
+      "authorURL":"https://twitter.com/mitrma",
+      "affiliations": [
+        {"name": "FLAIR, University of Oxford", "url":"https://foersterlab.com/"}]
+    },
+    {
+        "author":"Michael Beukman<sup>*</sup>",
+        "authorURL":"https://twitter.com/mbeukman",
+        "affiliations": [
+          {"name": "Oxford University", "url":"https://foersterlab.com/"}]
+      },
+      {
+        "author":"Chris Lu",
+        "authorURL":"https://twitter.com/_chris_lu_",
+        "affiliations": [
+          {"name": "Oxford University", "url":"https://foersterlab.com/"}]
+      },
+      {
+        "author":"Jakob Foerster",
+        "authorURL":"https://twitter.com/j_foerst/",
+        "affiliations": [
+          {"name": "Oxford University", "url":"https://foersterlab.com/"}]
+      }
+    ],
+    "katex": {
+      "delimiters": [
+      {"left": "$", "right": "$", "display": false},
+      {"left": "$$", "right": "$$", "display": true}
+      ]
+    }
+    
+  }</script>
+
+    <!-- {"left": "$", "right": "$", "display": false}, -->
+  </d-front-matter>
+  <div id="cover">
+
+    <video id="cover-video" autoplay="" muted="" loop="" playsinline="">
+      <!-- <source src="output.mp4" type="video/mp4"-->
+      <source src="assets/combined_wide17_midspeed.mp4" type="video/mp4">
+    </video>
+    <!-- <div style="background-color: rgba(0, 0, 0, 0.6);    color: #ffffff;    border-radius: 8px;    height: 100%;"> -->
+    <d-title class="myTitle">
+      <!-- <figure style="grid-column: page; margin: 1rem 0;"><img src="momentum.png"
+        style="width:100%; border: 1px solid rgba(0, 0, 0, 0.2);" /></figure> -->
+      <p>Investigating large-scale training of RL agents in a vast and diverse space of simulated tasks</p>
+    </d-title>
+    <!-- </div> -->
+  </div>
+  <d-byline></d-byline>
+
+  <d-article>
+    <div class="myBtnDiv">
+      <a style="border: none;" href="https://arxiv.org/abs/2410.23208"><button class="styled-button"
+          style="flex-grow: 1; min-width: 25px; min-height: 25px; align-items: center; justify-content: center; display: inline-flex;"><img
+            height="20px " src='./assets/file-pdf-solid.png' style="margin-right: 5px;">
+          Paper</button></a>
+      <a style="border: none" href="https://github.com/FlairOx/Kinetix/"><button class="styled-button"
+          style="flex-grow: 1; min-width: 25px; min-height: 25px; align-items: center; justify-content: center; display: inline-flex;"><img
+            width="20px" src='./assets/github-mark.png' style="margin-right: 5px;">
+          Kinetix</button></a>
+      <a style="border: none" href="https://github.com/MichaelTMatthews/Jax2D/"><button class="styled-button"
+          style="flex-grow: 1; min-width: 25px; min-height: 25px; align-items: center; justify-content: center; display: inline-flex;"><img
+            width="20px" src='./assets/github-mark.png' style="margin-right: 5px;">
+          Jax2D</button></a>
+      <a style="border: none" href="https://github.com/FlairOx/JaxGL"><button class="styled-button"
+          style="flex-grow: 1; min-width: 25px; min-height: 25px; align-items: center; justify-content: center; display: inline-flex;"><img
+            width="20px" src='./assets/github-mark.png' style="margin-right: 5px;">
+          JaxGL</button></a>
+      <a style="border: none" href="https://github.com/Michael-Beukman/Kinetix.js/"><button class="styled-button"
+          style="flex-grow: 1; min-width: 25px; min-height: 25px; align-items: center; justify-content: center; display: inline-flex;"><img
+            width="20px" src='./assets/github-mark.png' style="margin-right: 5px;">
+          Kinetix.js</button></a>
+    </div>
+    <br>
+    <br>
+    <div>
+      <div class="iframeContainerDiv" class="loadingDiv">
+        <div class="spinner"></div>
+        <iframe id="myiframe" class="myiframe" src="./gallery.html?level=RA5YVsUTXzD7HC4yrpbl&embed=true&editor=true" frameborder="0"
+          allowfullscreen allow="clipboard-read; clipboard-write"></iframe>
+      </div>
+    </div>
+    <div>
+
+      <h2 id="tldr">TL; DR</h2>
+      <p>
+        <code>Kinetix</code> is an open-ended reinforcement learning (RL) framework for 2D physics-based
+        control tasks, which can represent a <strong>wide</strong> range of tasks, from mazes, to video-game-based
+        environments, to
+        complex manipulation problems, and everything in between.
+        Despite this broad range of expressible tasks,
+        <code>Kinetix</code> can run at <strong>millions of steps per second</strong> on a single GPU by using <a
+          href="https://github.com/jax-ml/jax">JAX</a>, enabling the
+        feasible large-scale
+        training of reinforcement learning agents.
+      </p>
+    </div>
+    <div>
+    </div>
+
+    <div>
+      <h2 id="RLFRAMEWORK"><code>Kinetix: The RL Framework</code></h2>
+      <code>Kinetix</code> is a 2D-physics-based hardware-accelerated RL environment, meaning that it can represent a
+      large number of diverse tasks, from video games, to classic RL
+      environments to more complex locomotion and manipulation environments. For instance, below we have the classic RL
+      environments CartPole and Acrobot, some more complex robotic locomotion tasks inspired by <a
+        href="https://mujoco.org">Mujoco</a>, as well as nontraditional environments where the agent controls multiple
+      parts of a complex system.
+
+      <div class="video-grid">
+        <!-- Video 1 -->
+        <video autoplay="" muted="" loop="" playsinline="">
+          <source src="assets/all_videos/00_l__hard_cartpole_thrust.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <!-- Video 2 -->
+        <video autoplay="" muted="" loop="" playsinline="">
+          <source src="assets/all_videos/01_l_new__lever_puzzle.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <!-- Video 3 -->
+        <video autoplay="" muted="" loop="" playsinline="">
+          <source src="assets/all_videos/15_l__mjc_walker_easy.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <!-- Video 4 -->
+        <video autoplay="" muted="" loop="" playsinline="">
+          <source src="assets/all_videos/41_l__h4_cartpole.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <!-- Video 5 -->
+        <video autoplay="" muted="" loop="" playsinline="">
+          <source src="assets/all_videos/69_l_new__car_launch.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <!-- Video 6 -->
+        <video autoplay="" muted="" loop="" playsinline="">
+          <source src="assets/all_videos/72_m__h7_car_flip.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+
+        <!-- Video 5 -->
+        <video autoplay="" muted="" loop="" playsinline="">
+          <source src="assets/all_videos/52_l__h15_swing_up.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <!-- Video 6 -->
+        <video autoplay="" muted="" loop="" playsinline="">
+          <source src="assets/all_videos/51_l__grasp_easy.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
+    </div>
+    <div>
+      <h2 id="HANDMADE"><code>Kinetix: A Suite of Handmade Evaluation Tasks</code></h2>
+      <p>We provide a large set of challenging and diverse RL environments that you can start using immediately (see our
+        <a href="https://github.com/FlairOx/Kinetix/">main Github repository</a> for more).
+        You can use these environments to train a single, multi-task RL agent, or train on individual tasks, or use
+        these as a heldout evaluation set to test the generalisation of agents. </p>
+
+      <p>Below we show each of level in our database. For a dedicated experience (and the ability to edit and save your
+        own levels), please see <a href="./gallery.html">the gallery</a>.</p>
+
+      <div class="iframeContainerDiv">
+        <div class="spinner"></div>
+        <iframe id="myiframeGallery" class="myiframe"  src="./gallery.html?embed=true" frameborder="0"
+          allow="clipboard-read; clipboard-write" allowfullscreen
+          ></iframe>
+      </div>
+    </div>
+
+    <div>
+      <h2 id="EDITOR"><code>Kinetix: The Easy-to-use Environment Creator!</code></h2>
+      While we have designed a set of 74 hand-designed levels, we also provide functionality for <strong>anyone</strong>
+      to create their
+      own environments using our built-in editor, found <a href="./gallery.html?editor=true">here</a>.
+      After creating a level, you can export it and use the new level to
+      evaluate or train a JAX-based RL agent.
+      In other words, you can <strong>benefit from the speedup of JAX without needing
+        to actually write any JAX code!</strong>
+
+      All of this is described in more detail in the <a href="https://github.com/FlairOx/Kinetix/">Kinetix
+        repository</a>.
+    </div>
+
+    <div>
+      <h2 id="UED"><code>Kinetix</code>: An Open-Ended Benchmark</h2>
+
+      <p>Finally, we believe <code>Kinetix</code> serves as an ideal environment to study open-ended learning, automatic
+        curriculum learning, and unsupervised environment design. This is because <code>Kinetix</code> is fast, enabling
+        large-scale experiments, and because it is able to represent a wide range of semantically diverse tasks, as
+        opposed to only small variations of the same task (e.g., different obstacle locations in a maze).</p>
+
+      <p>For this reason, we have also provided functionality to automatically generate environments, to be able to
+        apply
+        UED algorithms to <code>Kinetix</code>.
+        Specifically, we have a way to randomly generate levels, so methods such as DR, PLR and SFL can be used. We also
+        provide mutation operators, so something like ACCEL can also be applied. Beyond this, <code>Kinetix</code>
+        levels
+        can also be edited or created in arbitrary ways, and we are excited to see approaches like RL and generative
+        models being used in future!</p>
+
+      <video autoplay="" muted="" loop="" playsinline="" style="width: 100%">
+        <source src="assets/combined_wide11.mp4" type="video/mp4">
+      </video>
+    </div>
+
+    <div>
+      <h2 id="conclusion">What Now?</h2>
+      If you are interested, there are many ways to engage with <code>Kinetix</code>:
+      <ul class="at-end-ul">
+        <li>
+          <div class="my-center-content">
+            <img src="assets/palette.png" width="20px" />
+            <span>Go and see what levels other people have made in the <a
+                href="https://kinetix-env.github.io/editor/gallery.html">gallery</a>, and see how you perform vs. a
+              trained agent!</span>
+          </div>
+        </li><br>
+        <li>
+          <div class="my-center-content">
+            <img src="assets/pencil.png" width="20px" /><span>Make your own levels in the <a
+                href="https://kinetix-env.github.io/editor/">editor</a>.</span>
+          </div>
+        </li><br>
+        <li>
+          <div class="my-center-content">
+            <img src="assets/lifting.png" width="20px" />
+            <span>Use <a href="https://github.com/FlairOx/Kinetix">Kinetix</a> to train
+              or evaluate RL agents.</span>
+          </div>
+        </li><br>
+        <li>
+          <div class="my-center-content">
+            <img src="assets/scientist.png" width="20px" /> <span>Or, use the two other projects we built in creating
+              <code>Kinetix</code>, <a href="https://github.com/MichaelTMatthews/Jax2D">Jax2D</a> (the underlying
+              physics
+              engine) or <a href="https://github.com/FlairOX/JaxGL">JaxGL</a> (a 2D rendering library in JAX)</span>
+          </div>
+        </li><br>
+        <li>
+          <div class="my-center-content">
+            <img src="assets/globe.png" width="20px" /> <span>If you are interested in using the web version, or
+              building on
+              it to make
+              your own websites, see <a href="https://github.com/Michael-Beukman/Kinetix.js">Kinetix.js</a>.</span>
+          </div>
+        </li><br>
+        <li>
+          <div class="my-center-content"><img src="assets/file-pdf-solid.png" height="20px" /><span>Or, read the paper,
+              which is available on <a href="https://arxiv.org/abs/2410.23208">arXiv</a>.</span></div>
+        </li>
+      </ul>
+    </div>
+
+  </d-article>
+
+  <d-appendix>
+
+    <div>
+      <h2>Citation</h2>
+      <pre  style="background-color: #f5f5f5; padding: 10px; padding-top: 0px">
+      <code  style="background-color: transparent ">
+ @misc{matthews2024Kinetix,
+    title={Kinetix: Investigating the Training of General Agents through Open-Ended Physics-Based Control Tasks}, 
+    author={Michael Matthews, Michael Beukman, Chris Lu, Jakob Foerster},
+    year={2024},
+    eprint={2410.23208},
+    archivePrefix={arXiv},
+    primaryClass={cs.LG},
+    url={https://arxiv.org/abs/2410.23208}
+ }</code></pre>
+    </div>
+    <div>
+      <h2>Acknowledgements</h2>
+      <p>This is based on the <a href="https://github.com/distillpub/template">Distill Template</a> and the <a
+          href="accelagent.github.io/">ACCEL Blog</a>.
+        Big thanks to Thomas Foster, Alex Goldie, Matthew Jackson and Andrei Lupu for feedback, discussions and
+        suggestions on this work.
+
+      </p>
+    </div>
+  </d-appendix>
+  <script>
+
+    const iframe = document.getElementById("myiframe");
+    iframe.focus();
+    document.onclick = () => {
+      iframe.focus();
+      console.log("CLICKED IFRAME", document.activeElement)
+    }
+
+    document.addEventListener('keydown', (event) => {
+      console.assert(false, "MORE VALUES HERE", event.key)
+      // Check if the iframe is in focus and if an arrow key is pressed
+      const iframe = document.querySelector('iframe'); // replace with your iframe selector if needed
+      const iframeFocused = document.activeElement === iframe;
+
+      if (iframeFocused && ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
+        event.preventDefault();  // Prevent the default scroll behavior on the outer page
+      }
+      event.stopPropagation();  // Prevent the default scroll behavior on the outer page
+    });
+
+  </script>
+</body>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Gallery</title>
+  <!-- <style rel="stylesheet" href="index.css"></style> -->
+  <style>
+    .active-button {
+      background-color: #D3D3D3;
+      /* Even Darker Grey */
+      transform: scale(0.98);
+      /* Slightly scale down when pressed */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      /* Add some shadow on active */
+    }
+  </style>
+</head>
+
+<body style="margin: 0px; overflow: hidden;" oncontextmenu="return false;">
+  <script src="bundle.js"></script>
+  <canvas id="canvasGallery" style="margin: 0 auto 0 auto; display: block;"></canvas>
+  <canvas id="canvasEditor" style="margin: 0 auto 0 auto; display: none;"></canvas>
+  <!-- <div> -->
+
+  <div id="loadingScreen">
+    <div class="spinner"></div>
+  </div>
+
+  <div class="top-right" id="loginDiv">
+    <div id="tagDiv">
+      <button class="btn btn-light active" id="btnSelectCore">Core</button>
+      <button class="btn btn-light" id="btnSelectCommunity">Community</button>
+    </div>
+    <img style="max-height: 32px" id="loginImage">
+    <span id="usernameP">Username</span>
+    <button class="button" id="loginButton"><span class="login-icon">🔑</span> Login</button>
+    <button class="button signout-btn" id="signoutButton">Sign Out</button>
+  </div>
+
+  <div id="allItems">
+    <div class="divGalleryLevelInfo card text-center" style="display: block; width: 212.5px; max-height: 300px;" id="cardNew">
+      <div class="card-header">
+      <div id="divInfoOfLevel-1" class="divOfLevelInfo">NEW</div>
+      </div>
+      <div class="card-body">
+      <!-- Put the rendering here -->
+      <img width="125px" id="myImage-1" src="./assets/plus_highres.png">
+      <div class="divToRenderIn">
+        <button id="btnThumbsUp-1" class="btn btn-light btnThumbs btnThumbs-notDisabled" style="flex-grow: 1; min-width: 25px; min-height: 25px; align-items: center; justify-content: center; display: inline-flex; padding: 5px; visibility: hidden">
+          <img width="20px" src="./assets/thumbsup.png" style="margin-right: 5px;">
+          <span id="spanBtnThumbsUp-1"></span>
+      </button>
+
+      </div>
+      <!-- Buttons here -->
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;" id="divBtnContainer0">
+                  
+          </div>
+      </div>
+      <div class="card-footer text-body-secondary" id="htmlTitleBottom-1"><span style="visibility:hidden">NEW</span></div>
+    </div>
+  </div>
+
+  <div class="bottom-panel" id="bottom-panel">
+    <button class="btn btn-light" id="arrow-left"
+      style="align-items: center; justify-content: center; margin-left: 5px">
+      <img width="32px" src='./assets/leftarrow.png' style="margin-right: 5px;">
+    </button>
+    <span id="bottomPanelText">0/0</span>
+    <button class="btn btn-light" id="arrow-right"
+      style="align-items: center; justify-content: center; margin-left: 5px">
+      <img width="32px" src='./assets/rightarrow.png'>
+    </button>
+  </div>
+
+</body>
+
+</html>

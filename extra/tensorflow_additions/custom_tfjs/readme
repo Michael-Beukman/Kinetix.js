@@ -1,0 +1,1 @@
+npx tfjs-custom-module  --config custom-tf.json
