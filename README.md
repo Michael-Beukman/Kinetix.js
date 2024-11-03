@@ -39,8 +39,10 @@ npm run start
 
 and navigating to http://localhost:8080/ for the blog post, http://localhost:8080/gallery.html for the gallery and http://localhost:8080/gallery.html?editor=true for the editor.
 
+
 > [!TIP] Minimally getting started
 > If you want to minimally start with just the editor, you can `return null` at the top of `initialiseFirebaseApp` in `src/web/database.ts`, and navigate to http://localhost:8080/gallery.html?editor=true&embed=true
+
 
 Once you have made all the edits you want, `npm run build` will create a deployable app in `dist/`.
 ## 🧩 Components
