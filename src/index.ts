@@ -152,6 +152,7 @@ const singlePageApp = () => {
             document.getElementById("canvasGallery").style.display = "none";
             document.getElementById("canvasEditor").style.display = "block";
             document.getElementById("bottom-panel").style.display = "none";
+            document.getElementById("allItems").style.display = "none";
             _doEditor();
         } else if (window.location.toString().includes("gallery.html")) {
             _doGallery();

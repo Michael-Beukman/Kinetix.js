@@ -461,6 +461,9 @@ export const makeGallerySketch = (
             const display = show ? "block" : "none";
             let i = 0;
             for (let elem of Array.from(document.getElementsByClassName("divGalleryLevelInfo")) as HTMLElement[]) {
+                if (elem.id == "cardNew" && pageLoadStateReference.isEmbedded()) {
+                    continue;
+                }
                 elem.style.display = display;
                 if (show && i + levelStartingIndex >= allLevelsFromDB[currentTag].length) {
                     elem.style.display = "none";
