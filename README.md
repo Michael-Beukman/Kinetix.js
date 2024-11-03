@@ -23,6 +23,12 @@ cd Kinetix.js
 npm install
 ```
 
+After installation, please go to `src/web/database.ts` and fill in the firebase config for your own project.
+```js
+    const firebaseConfig = {
+        // TODO: 
+    };
+```
 ## 🧩 Components
 ### 🚒 Physics Engine
 The first part of Kinetix.js is the reimplementation of [Jax2D](https://github.com/MichaelTMatthews/Jax2D), so it is a simple 2D physics engine.

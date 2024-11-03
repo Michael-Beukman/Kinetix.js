@@ -40,12 +40,7 @@ export interface FireBaseAppAndDB {
 
 export const initialiseFirebaseApp = (authCallback: (user: User) => void = null, ignoreAuth = false): FireBaseAppAndDB => {
     const firebaseConfig = {
-        apiKey: "AIzaSyAJN8uqtiu0-EhDWeUw9X0KVnFtgwtbgkI",
-        authDomain: "kinetix-4fbe8.firebaseapp.com",
-        projectId: "kinetix-4fbe8",
-        storageBucket: "kinetix-4fbe8.appspot.com",
-        messagingSenderId: "30123591509",
-        appId: "1:30123591509:web:7c62f10ca69515a0a111dc",
+        // TODO: 
     };
 
     // Initialize Firebase
