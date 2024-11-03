@@ -52,6 +52,9 @@ Finally, we have a [gallery](https://kinetix-env.github.io/v2/gallery.html) wher
  <img width="80%" src="extra/github_images/gallery.png" />
 </p>
 
+### 🗞️ Blog Post
+`dist/index.html` contains source code for the project page/blog post, which is based on the <a href="https://github.com/distillpub/template">Distill Template</a> and the <a href="accelagent.github.io/">ACCEL Blog</a>.
+
 ## 🕵️ See Also
 - The primary [Kinetix](https://github.com/FLAIROx/Kinetix) repository, containing all of the training code.
 - [Jax2D](https://github.com/MichaelTMatthews/Jax2D), the 2D physics engine built for Kinetix.
