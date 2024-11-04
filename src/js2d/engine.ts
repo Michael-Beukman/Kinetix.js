@@ -814,159 +814,53 @@ export function createEmptyEnv(staticEnvParams: StaticEnvParams, envParams: EnvP
 
     baseSimState.collisionMatrix = calculateCollisionMatrix(staticEnvParams, baseSimState.joint);
 
-    if (0) {
-        baseSimState.circle[0] = Object.assign(baseSimState.circle[0], {
-            position: nj.array([2.5, 2.5]),
-            active: true,
-            radius: 0.1,
-            inverseMass: 1,
-            inverseInertia: 1,
-            restitution: 0.9,
-        });
-        baseSimState.circle[1] = Object.assign(baseSimState.circle[1], {
-            position: nj.array([2.5, 1]),
-            active: true,
-            radius: 0.5,
-            inverseMass: 0,
-            inverseInertia: 0,
-            restitution: 0.9,
-        });
-    } else if (0) {
-        // test rectangles
-        baseSimState.polygon[0] = Object.assign(baseSimState.polygon[0], {
-            position: nj.array([2.5, 2.5]),
-            active: true,
-            vertices: getRectangleVertices(0.2, 0.2),
-            nVertices: 4,
-            inverseMass: 1,
-            inverseInertia: 1,
-            restitution: 0,
-            friction: 1,
-        });
-
-        baseSimState.polygon[1] = Object.assign(baseSimState.polygon[1], {
-            position: nj.array([2.5, 1]),
-            active: true,
-            vertices: getRectangleVertices(1, 0.2),
-            nVertices: 4,
-            inverseMass: 0,
-            inverseInertia: 0,
-            restitution: 0,
-            friction: 1,
-        });
-    } else if (0) {
-        baseSimState.polygon[0] = Object.assign(baseSimState.polygon[0], {
-            position: nj.array([2.5, 2.5]),
-            active: true,
-            vertices: getRectangleVertices(0.2, 0.2),
-            nVertices: 4,
-            inverseMass: 1,
-            inverseInertia: 1,
-            restitution: 0,
-            friction: 1,
-        });
-
-        baseSimState.circle[0] = Object.assign(baseSimState.circle[0], {
-            position: nj.array([2.25, 1]),
-            active: true,
-            radius: 0.5,
-            inverseMass: 0,
-            inverseInertia: 0,
-            restitution: 0.9,
-        });
-    } else if (0) {
-        baseSimState.polygon[0] = Object.assign(baseSimState.polygon[0], {
-            position: nj.array([2.5, 1]),
-            active: true,
-            vertices: getRectangleVertices(7, 0.2),
-            nVertices: 4,
-            inverseMass: 0,
-            inverseInertia: 0,
-            restitution: 0,
-            friction: 1,
-        });
-
-        for (let i = 0; i < 1; ++i) {
-            // break;
-            baseSimState.circle[i] = Object.assign(baseSimState.circle[i], {
-                position: nj.array([2.5, 2.5]),
-                // position: nj.array([1.5, Math.random() * 5]),
-                active: true,
-                radius: 0.5,
-                inverseMass: 1,
-                inverseInertia: 1,
-                restitution: 0.0,
-            });
+    const _addFixedPolygon = (pos: ndarray, index: number) => {
+        let vertices;
+        if (index == 0) {
+            vertices = nj.array([
+                [2.5, 5.2],
+                [2.5, -5.2],
+                [-2.5, -5.2],
+                [-2.5, 5.2],
+            ]);
+        } else if (index == 1) {
+            vertices = nj.array([
+                [-5, 5],
+                [-0.0, 5], // I think this is cleaner if at -0.0: -0.05
+                [-0.0, 0], // I think this is cleaner if at -0.0: -0.05
+                [-5, 0],
+            ]);
+        } else if (index == 2) {
+            vertices = nj.array([
+                [5, 5],
+                [10.0, 5],
+                [10.0, 0],
+                [5, 0],
+            ]);
+        } else if (index == 3) {
+            vertices = nj.array([
+                [2.5, 5.2],
+                [2.5, -5.2],
+                [-2.5, -5.2],
+                [-2.5, 5.2],
+            ]);
         }
-
-        baseSimState.circle[1] = Object.assign(baseSimState.circle[1], {
-            position: nj.array([3, 2.5]),
-            // position: nj.array([1.5, Math.random() * 5]),
+        baseSimState.polygon[index] = Object.assign(baseSimState.polygon[index], {
+            position: pos, //
             active: true,
-            radius: 0.6,
-            inverseMass: 1,
-            inverseInertia: 1,
-            restitution: 0.0,
+            vertices: vertices,
+            nVertices: 4,
+            inverseMass: 0,
+            inverseInertia: 0,
+            restitution: 0,
+            friction: 1,
         });
+    };
 
-        baseSimState.joint[0].active = true;
-        baseSimState.joint[0].motorOn = true;
-        baseSimState.joint[0].motorPower = 1.0;
-        baseSimState.joint[0].motorSpeed = 1.0;
-        baseSimState.joint[0].globalPosition = nj.array([2.5, 2.5]);
-        baseSimState.joint[0].aIndex = staticEnvParams.numPolygons + 1;
-        baseSimState.joint[0].bIndex = staticEnvParams.numPolygons;
-        baseSimState.joint[0].aRelativePos = nj.array([-0.14529977235462255, 0.15993265993266004]); //nj.array([0.5, 0.1]);
-        baseSimState.joint[0].bRelativePos = nj.array([0.35470022764537745, 0.15993265993266004]);
-    } else {
-        const _addFixedPolygon = (pos: ndarray, index: number) => {
-            let vertices;
-            if (index == 0) {
-                vertices = nj.array([
-                    [2.5, 5.2],
-                    [2.5, -5.2],
-                    [-2.5, -5.2],
-                    [-2.5, 5.2],
-                ]);
-            } else if (index == 1) {
-                vertices = nj.array([
-                    [-5, 5],
-                    [-0.0, 5], // I think this is cleaner if at -0.0: -0.05
-                    [-0.0, 0], // I think this is cleaner if at -0.0: -0.05
-                    [-5, 0],
-                ]);
-            } else if (index == 2) {
-                vertices = nj.array([
-                    [5, 5],
-                    [10.0, 5],
-                    [10.0, 0],
-                    [5, 0],
-                ]);
-            } else if (index == 3) {
-                vertices = nj.array([
-                    [2.5, 5.2],
-                    [2.5, -5.2],
-                    [-2.5, -5.2],
-                    [-2.5, 5.2],
-                ]);
-            }
-            baseSimState.polygon[index] = Object.assign(baseSimState.polygon[index], {
-                position: pos, //
-                active: true,
-                vertices: vertices,
-                nVertices: 4,
-                inverseMass: 0,
-                inverseInertia: 0,
-                restitution: 0,
-                friction: 1,
-            });
-        };
-
-        _addFixedPolygon(nj.array([2.5, -4.8]), 0);
-        _addFixedPolygon(nj.array([0.0, 0.0]), 1);
-        _addFixedPolygon(nj.array([0.0, 0.0]), 2);
-        _addFixedPolygon(nj.array([2.5, 0.2 + 10]), 3);
-    }
+    _addFixedPolygon(nj.array([2.5, -4.8]), 0);
+    _addFixedPolygon(nj.array([0.0, 0.0]), 1);
+    _addFixedPolygon(nj.array([0.0, 0.0]), 2);
+    _addFixedPolygon(nj.array([2.5, 0.2 + 10]), 3);
 
     baseSimState = recalculateAllInverseMassInertia(baseSimState);
     baseSimState = recalculateGlobalPositions(baseSimState);
