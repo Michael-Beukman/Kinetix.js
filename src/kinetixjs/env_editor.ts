@@ -1982,7 +1982,9 @@ export class Editor {
         };
 
         const doForJoint = (joint: Joint) => {
+            const oldIsFixed = joint.isFixedJoint;
             joint = generalSet(joint, this.qs[1], this.uiMapping.joint);
+            const newIsFixed = joint.isFixedJoint;
 
             const jointLimitKeys = ["Min Joint Lt", "Max Joint Lt"];
             const jointControlsToDisable = jointLimitKeys.concat([
@@ -2001,6 +2003,14 @@ export class Editor {
                     this.qs[1].enableControl(k);
                     this.qs[1].showControl(k);
                 }
+            }
+
+            if (newIsFixed && !oldIsFixed) {
+                // need to set rotation.
+                const a = selectShape(envState, joint.aIndex);
+                const b = selectShape(envState, joint.bIndex);
+                joint.rotation = b.rotation - a.rotation;
+                this.qs[1].setValue("Rotation", radiansToDegrees(joint.rotation));
             }
             for (let k of jointLimitKeys) {
                 if (joint.isFixedJoint) continue;
@@ -2111,7 +2121,7 @@ export class Editor {
             addMapping("isFixedJoint", "Fixed Joint", (n) => qs.addBoolean(n, false, () => {}));
             addMapping("motorSpeed", "Motor Speed", (n) => qs.addRange(n, 0, 10, 0, 0.01));
             addMapping("motorPower", "Motor Power", (n) => qs.addRange(n, 0, 10, 0, 0.01));
-            addMapping("rotation", "Rotation", (n) => qs.addRange(n, 0, 360, 0, 15));
+            addMapping("rotation", "Rotation", (n) => qs.addRange(n, -360, 360, 0, 15));
             addMapping("motorOn", "Motor On", (n) => qs.addBoolean(n, false));
             addMapping("motorHasJointLimits", "Joint Limits", (n) => qs.addBoolean(n, false), false);
             addMapping("minRotation", "Min Joint Lt", (n) => qs.addRange(n, 0, 360, 0, 15));
