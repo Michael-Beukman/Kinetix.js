@@ -383,6 +383,15 @@ export const makeEditSketch = (
 
             editor = new Editor(p, staticEnvParams, envParams, images, qs, afterGUIInit, isActive, pageLoadStateReference, firebaseApp);
             const canv = p.createCanvas(w, h, document.getElementById("canvasEditor"));
+
+            window.addEventListener('beforeunload', function (e) {
+                if (!isActive() || !editor.hasMadeAnyChanges) return;
+                e.stopPropagation();
+                e.preventDefault();
+                e.returnValue = '';
+
+                return "You are going to lose data."
+            });
         };
         const _updateSimParams = () => {
             envParams = editor.envParams;

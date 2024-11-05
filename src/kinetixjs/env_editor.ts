@@ -2119,8 +2119,8 @@ export class Editor {
             const qs = this.qs[1];
             const addMapping = makeAddMapping(this.uiMapping.joint);
             addMapping("isFixedJoint", "Fixed Joint", (n) => qs.addBoolean(n, false, () => {}));
-            addMapping("motorSpeed", "Motor Speed", (n) => qs.addRange(n, 0, 10, 0, 0.01));
-            addMapping("motorPower", "Motor Power", (n) => qs.addRange(n, 0, 10, 0, 0.01));
+            addMapping("motorSpeed", "Motor Speed", (n) => qs.addRange(n, 0, 3, 0, 0.01));
+            addMapping("motorPower", "Motor Power", (n) => qs.addRange(n, 0, 2, 0, 0.01));
             addMapping("rotation", "Rotation", (n) => qs.addRange(n, -360, 360, 0, 15));
             addMapping("motorOn", "Motor On", (n) => qs.addBoolean(n, false));
             addMapping("motorHasJointLimits", "Joint Limits", (n) => qs.addBoolean(n, false), false);
