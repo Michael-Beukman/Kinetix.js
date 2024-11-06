@@ -2168,11 +2168,6 @@ export class Editor {
                     reader.addEventListener("load", (event) => {
                         try {
                             const newJson = JSON.parse(event.target.result as string);
-                            loadFromJSON(
-                                this.staticEnvParams.screenDim.get(0),
-                                this.staticEnvParams.screenDim.get(1),
-                                this.contentShouldLoad
-                            );
                             this.shouldLoad = true;
                             this.contentShouldLoad = newJson;
                         } catch (e) {

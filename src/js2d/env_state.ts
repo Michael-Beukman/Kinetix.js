@@ -197,7 +197,7 @@ export const defaultEnvParams: EnvParams = {
     pixelsPerUnit: 100,
     numUnits: 5,
 
-    maxTimesteps: 5,
+    maxTimesteps: 256,
     denseRewardScale: 1.0,
     numShapeRoles: 4,
 };
