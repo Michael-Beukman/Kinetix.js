@@ -170,6 +170,7 @@ export class Editor {
     isCurrentlyBusyEditing = true;
 
     hasMadeAnyChanges = false;
+    shouldSnap: boolean = true;
 
     constructor(
         p: p5,
@@ -823,6 +824,7 @@ export class Editor {
         ignorePolyIndex: number | null = null,
         unifiedIndexToIgnoreCollisionMatrix: number | null = null
     ) {
+        if (!this.shouldSnap) return position;
         const ignorePolys = [];
         const ignoreCircles = [];
         if (ignorePolyIndex !== null) ignorePolys.push(ignorePolyIndex);
@@ -844,7 +846,8 @@ export class Editor {
         return position;
     }
 
-    _snapPosition(envState: EnvState, pos: ndarray, aIndex: number, bIndex: number, doDraw = true): ndarray {
+    _snapPosition(envState: EnvState, position: ndarray, aIndex: number, bIndex: number, doDraw = true): ndarray {
+        if (!this.shouldSnap) return position;
         const _choosePositions = (pos: ndarray, positions: (SnapReturn | null)[]): ndarray => {
             let bestPos = null;
             for (let newPos of positions) {
@@ -860,16 +863,20 @@ export class Editor {
         };
         const a = selectShape(envState, aIndex);
         const snapPosA =
-            aIndex < this.staticEnvParams.numPolygons ? this._snapPositionToRectangle(a, pos) : this._snapPositionToCircle(a, pos);
+            aIndex < this.staticEnvParams.numPolygons
+                ? this._snapPositionToRectangle(a, position)
+                : this._snapPositionToCircle(a, position);
         const positionsToChoose = [snapPosA];
 
         if (bIndex >= 0) {
             const b = selectShape(envState, bIndex);
             const snapPosB =
-                bIndex < this.staticEnvParams.numPolygons ? this._snapPositionToRectangle(b, pos) : this._snapPositionToCircle(b, pos);
+                bIndex < this.staticEnvParams.numPolygons
+                    ? this._snapPositionToRectangle(b, position)
+                    : this._snapPositionToCircle(b, position);
             positionsToChoose.push(snapPosB);
         }
-        return _choosePositions(pos, positionsToChoose);
+        return _choosePositions(position, positionsToChoose);
     }
     // #region Add Joint and Thruster
     addJoint(envState: EnvState): EnvState {
@@ -2162,6 +2169,10 @@ export class Editor {
             qs.addBoolean("Let Agent Play", false);
             qs.hideControl("Let Agent Play");
 
+            qs.addBoolean("Enable Snapping", true, () => {
+                this.shouldSnap = qs.getValue("Enable Snapping");
+            });
+
             qs.addFileChooser("Load File", "Load File", "", async (file: File) => {
                 const successFn = () => {
                     const reader = new FileReader();
@@ -2187,7 +2198,8 @@ export class Editor {
                 };
                 successFn();
             });
-            document.getElementsByClassName("qs_content")[3].children[1].addEventListener("click", (e) => {
+
+            document.getElementsByClassName("qs_content")[3].children[2].addEventListener("click", (e) => {
                 if ((e.target as HTMLElement).classList.contains("qs_file_chooser")) {
                 } else {
                     e.preventDefault();

@@ -28,12 +28,12 @@ export const makeGallerySketch = (
             level: {
                 env_state: createEmptyEnv(staticEnvParams, defaultEnvParams),
                 env_params: defaultEnvParams,
-                static_env_params: staticEnvParams
+                static_env_params: staticEnvParams,
             },
             metaData: null,
             rankingData: null,
             levelID: null,
-        }
+        };
 
         // Levels & DB Stuff
         let allLevelsFromDB: dict<SavedLevel[]> = {
@@ -117,12 +117,16 @@ export const makeGallerySketch = (
                 triggerChangeTag();
             };
 
-            const cardNew = (document.getElementById("cardNew") as HTMLElement)
-            if (cardNew) cardNew.onclick = () => {
+            const cardNew = document.getElementById("cardNew") as HTMLElement;
+            if (cardNew)
+                cardNew.onclick = () => {
+                    showHideAllHtmlElements(false);
+                    functionWhenClicked(emptyLevel);
+                };
 
-                showHideAllHtmlElements(false);
-                functionWhenClicked(emptyLevel);
-            };
+            if (pageLoadStateReference.isEmbedded()) {
+                if (cardNew) cardNew.style.display = "none";
+            }
         };
 
         p.draw = () => {
@@ -198,7 +202,7 @@ export const makeGallerySketch = (
         // #endregion
 
         const numberOfItemsPerPage = () => {
-            return rows * cols - 1;
+            return rows * cols - (pageLoadStateReference.isEmbedded() ? 0 : 1);
         };
 
         const canGoLeft = () => levelStartingIndex > 0 && !isLoading;
@@ -223,7 +227,7 @@ export const makeGallerySketch = (
             if (isLoading) {
                 return;
             }
-            if (startingIndex + rows * cols < allLevelsFromDB[currentTag].length) {
+            if (startingIndex + rows * cols < allLevelsFromDB[currentTag].length || !shouldLoadMore[currentTag]) {
                 triggerEndLoad();
                 return;
             }

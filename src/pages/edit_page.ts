@@ -153,7 +153,7 @@ export const makeEditSketch = (
             for (let i = 0; i < editor.qs.length; i++) {
                 editor.qs[i].setWidth(_getUIWidth());
             }
-            
+
             editor.qs[7].setWidth(_getUIWidth());
             const elem = document.getElementsByClassName("qs_title_bar")[7];
             if (isFirst && elem) elem.remove();
@@ -384,13 +384,13 @@ export const makeEditSketch = (
             editor = new Editor(p, staticEnvParams, envParams, images, qs, afterGUIInit, isActive, pageLoadStateReference, firebaseApp);
             const canv = p.createCanvas(w, h, document.getElementById("canvasEditor"));
 
-            window.addEventListener('beforeunload', function (e) {
+            window.addEventListener("beforeunload", function (e) {
                 if (!isActive() || !editor.hasMadeAnyChanges) return;
                 e.stopPropagation();
                 e.preventDefault();
-                e.returnValue = '';
+                e.returnValue = "";
 
-                return "You are going to lose data."
+                return "You are going to lose data.";
             });
         };
         const _updateSimParams = () => {
