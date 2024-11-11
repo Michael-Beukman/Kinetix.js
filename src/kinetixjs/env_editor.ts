@@ -805,6 +805,7 @@ export class Editor {
             if (!circle.active) continue;
             if (ignoreIndexes.includes(i)) continue;
             const candidate = this._snapPositionToCircle(circle, position);
+            if (!candidate) continue;
             // const delta = position.subtract(circle.position);
             if (bestPos == null || norm(candidate.pos.subtract(position)) < norm(bestPos.pos.subtract(position))) {
                 bestPos = candidate;
