@@ -40,7 +40,7 @@ export interface FireBaseAppAndDB {
 
 export const initialiseFirebaseApp = (authCallback: (user: User) => void = null, ignoreAuth = false): FireBaseAppAndDB => {
     const firebaseConfig = {
-        // TODO: 
+        // TODO:
     };
 
     // Initialize Firebase
@@ -148,7 +148,12 @@ export const paginatedLoad = async (
     areAnyMoreAvailable: boolean;
 }> => {
     let documentSnapshots, lastVisible;
-    const order = orderBy("rankingData.upvotes", "desc"); // orderBy("metaData.date", "desc");
+    let order; // = orderBy("rankingData.upvotes", "desc"); // orderBy("metaData.date", "desc");
+    if (tagToUse == null || tagToUse == "core") {
+        order = orderBy("rankingData.upvotes", "desc");
+    } else {
+        order = orderBy("metaData.date", "desc");
+    }
     const queryFilters: QueryConstraint[] = [order];
     if (tagToUse != null) {
         queryFilters.push(where("metaData.tags", "array-contains", tagToUse));
